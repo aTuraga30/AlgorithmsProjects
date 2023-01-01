@@ -92,8 +92,31 @@ def shortest_path(source, target):
     If no possible path, returns None.
     """
 
-    # TODO
-    raise NotImplementedError
+    num_explored = 0
+
+    start = Node(state=source, parent=None, action=None)
+    frontier = QueueFrontier()
+    frontier.add(start)
+
+    explored = set()
+
+    while True: 
+
+        if frontier.empty():
+            raise Exception("No Solution")
+        
+        node = frontier.remove()
+        num_explored += 1
+
+        if node.state == target: 
+            return node.action
+
+        explored.add(node.state)
+
+        for action, state in neighbors_for_person(node.state):
+            if not frontier.contains_state(state) and state not in explored:
+                child = Node(state=state, parent=node, action=action)
+                frontier.add(child)
 
 
 def person_id_for_name(name):
@@ -155,6 +178,17 @@ def movie_name_for_id(movieIdNumber):
         
     return movieName
 
+def movie_id_for_name(movieName):
+
+    movieId = 0
+
+    for movieIdNumber in movies:
+        if movies[movieIdNumber]["title"] == movieName:
+            movieId = movieIdNumber
+    
+    return movieId
+
+
 #if __name__ == "__main__":
     #main()
 
@@ -164,6 +198,7 @@ if len(sys.argv) > 2:
 directory = sys.argv[1] if len(sys.argv) == 2 else "large"
 load_data(directory)
 
+'''
 desiredActor = input("Which Actor/Actress would you like to see: ")
 result = neighbors_for_person(person_id_for_name(desiredActor))
 organizedIdList = []
@@ -172,10 +207,22 @@ for i in result:
     organizedIdList.append(i)
 
 organizedIdList.sort()
-listCount = 0
 
 for item in organizedIdList:
     print(movie_name_for_id(item[0]),"-",person_name_for_id(item[1]))
-    listCount += 1
 
-print("list count: ", listCount)
+print(person_id_for_name("Cary Elwes"))
+print(person_id_for_name("Tom Cruise"))
+'''
+
+person1 = input("Person 1: ")
+person2 = input("Person 2: ")
+
+ew = person_id_for_name("Emma Watson")
+jl = person_id_for_name("Jennifer Lawrence")
+
+#print(ew)
+#print(jl)
+
+
+print("The latest movie connection is:", movie_name_for_id(shortest_path(person_id_for_name(person1), person_id_for_name(person2))))
