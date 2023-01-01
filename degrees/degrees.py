@@ -178,38 +178,5 @@ def neighbors_for_person(person_id):
             neighbors.add((movie_id, person_id))
     return neighbors
 
-# Helper Function 1
-def person_name_for_id(idNumber):
-    name = ""
-    idNumber = str(idNumber)
-
-    for ids in people:
-        if idNumber == ids:
-            name = people[idNumber]["name"]
-    
-    return name
-
-# Helper Function 2
-def movie_name_for_id(movieIdNumber):
-    movieName = ""
-    movieIdNumber = str(movieIdNumber)
-
-    for movieIds in movies:
-        if movieIdNumber == movieIds:
-            movieName = movies[movieIdNumber]["title"]
-        
-    return movieName
-
-# Helper Function 3
-def movie_id_for_name(movieName):
-    movieId = 0
-
-    for movieIdNumber in movies:
-        if movies[movieIdNumber]["title"] == movieName:
-            movieId = movieIdNumber
-    
-    return movieId
-
-
 if __name__ == "__main__":
     main()
