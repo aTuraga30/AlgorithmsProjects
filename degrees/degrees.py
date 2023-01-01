@@ -82,7 +82,7 @@ def main():
             person2 = people[path[i + 1][1]]["name"]
             movie = movies[path[i + 1][0]]["title"]
             print(f"{i + 1}: {person1} and {person2} starred in {movie}")
-
+        
 
 def shortest_path(source, target):
     """
@@ -103,21 +103,42 @@ def shortest_path(source, target):
     while True: 
 
         if frontier.empty():
-            raise Exception("No Solution")
+            return None
         
         node = frontier.remove()
         num_explored += 1
 
         if node.state == target: 
-            return node.action
+            final_list_of_pairs = []
+
+            while node.parent is not None:
+                movie_and_person_pairs = tuple((node.action, node.state))
+                final_list_of_pairs.append(movie_and_person_pairs)
+                node = node.parent 
+
+            final_list_of_pairs.reverse()
+
+            return final_list_of_pairs
 
         explored.add(node.state)
 
-        for action, state in neighbors_for_person(node.state):
-            if not frontier.contains_state(state) and state not in explored:
-                child = Node(state=state, parent=node, action=action)
-                frontier.add(child)
+        for movie, star in neighbors_for_person(node.state):
+            if not frontier.contains_state(star) and star not in explored:
+                child = Node(state=star, parent=node, action=movie)
 
+                if child.state == target:
+                    final_list_of_pairs = []
+
+                    while child.parent is not None:
+                        movie_and_person_pairs = tuple((child.action, child.state))
+                        final_list_of_pairs.append(movie_and_person_pairs)
+                        child = child.parent
+                    
+                    final_list_of_pairs.reverse()
+
+                    return final_list_of_pairs
+
+                frontier.add(child)
 
 def person_id_for_name(name):
     """
@@ -157,7 +178,7 @@ def neighbors_for_person(person_id):
             neighbors.add((movie_id, person_id))
     return neighbors
 
-
+# Helper Function 1
 def person_name_for_id(idNumber):
     name = ""
     idNumber = str(idNumber)
@@ -168,6 +189,7 @@ def person_name_for_id(idNumber):
     
     return name
 
+# Helper Function 2
 def movie_name_for_id(movieIdNumber):
     movieName = ""
     movieIdNumber = str(movieIdNumber)
@@ -178,8 +200,8 @@ def movie_name_for_id(movieIdNumber):
         
     return movieName
 
+# Helper Function 3
 def movie_id_for_name(movieName):
-
     movieId = 0
 
     for movieIdNumber in movies:
@@ -189,40 +211,5 @@ def movie_id_for_name(movieName):
     return movieId
 
 
-#if __name__ == "__main__":
-    #main()
-
-if len(sys.argv) > 2:
-    sys.exit("Usage: python degrees.py [directory]")
-
-directory = sys.argv[1] if len(sys.argv) == 2 else "large"
-load_data(directory)
-
-'''
-desiredActor = input("Which Actor/Actress would you like to see: ")
-result = neighbors_for_person(person_id_for_name(desiredActor))
-organizedIdList = []
-
-for i in result:
-    organizedIdList.append(i)
-
-organizedIdList.sort()
-
-for item in organizedIdList:
-    print(movie_name_for_id(item[0]),"-",person_name_for_id(item[1]))
-
-print(person_id_for_name("Cary Elwes"))
-print(person_id_for_name("Tom Cruise"))
-'''
-
-person1 = input("Person 1: ")
-person2 = input("Person 2: ")
-
-ew = person_id_for_name("Emma Watson")
-jl = person_id_for_name("Jennifer Lawrence")
-
-#print(ew)
-#print(jl)
-
-
-print("The latest movie connection is:", movie_name_for_id(shortest_path(person_id_for_name(person1), person_id_for_name(person2))))
+if __name__ == "__main__":
+    main()
