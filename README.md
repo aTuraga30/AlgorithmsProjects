@@ -1,6 +1,4 @@
 # README 
-#
-
 These projects are independent of each other, but are part of the requirements needed to pass the CS50 course from Harvard. 
 
 ## Degrees
@@ -9,12 +7,14 @@ These projects are independent of each other, but are part of the requirements n
 This project lets you see the connections between two Hollywood actors and actresses. For example, if I wanted to know the degrees of seperation between
 Emma Watson and Tom Cruise, I would input: 
 
-`Name: [Emma Watson] `
-`Name: [Tom Cruise]`
+`Name: Emma Watson `
+
+`Name: Tom Cruise`
 
 The output would be:
 
 `1: Emma Watson and Jennifer Connelly starred in Noah`
+
 `2: Jennifer Connelly and Tom Cruise starred in Top Gun: Maverick`
 
 The application would then ask me:
