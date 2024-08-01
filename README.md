@@ -48,7 +48,7 @@ You need to make sure pygame is installed, and the best way to do so is through 
 
 ### Usage 
 
-In order to run the application, do: 
+In order to run the application, run: 
 
 
 `python3 runner.py`
